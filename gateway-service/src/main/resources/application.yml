@@ -7,6 +7,17 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/cydeo/dev/user/**
+          filters:
+            - RewritePath=/cydeo/dev/user/(?<segment>.*),/$\{segment}
+
+
+
+
 server:
   port: 8762
 
