@@ -13,6 +13,7 @@ import com.cydeo.service.ProjectService;
 import com.cydeo.service.UserClientService;
 import com.cydeo.util.MapperUtil;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -114,6 +115,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @CircuitBreaker(name="user-service",fallbackMethod = "userServiceFallBack")
+    @Retry(name = "user-service",fallbackMethod = "userServiceRetryFallBack")
     public List<ProjectDTO> listAllProjectDetails(String userName) throws ProjectServiceException {
 
         UserResponseDTO userResponseDto = userClientService.getUserDTOByUserName(userName);
@@ -143,6 +145,12 @@ public class ProjectServiceImpl implements ProjectService {
         logger.error("exception{}",e.getMessage());
         return new ArrayList<>();
     }
+
+    public List<ProjectDTO> userServiceRetryFallBack(String userName,Exception e){
+        logger.error("Retried 3 times. User-service is not healthy {}",e.getMessage());
+        return new ArrayList<>();
+    }
+
 
 
 
