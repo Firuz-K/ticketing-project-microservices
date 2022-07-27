@@ -73,10 +73,10 @@ resilience4j:
     instances:
       user-service:
         baseConfig: default
-#  ratelimiter:
-#    instances:
-#      test:
-#        timeOutDuration: 5000
-#        limitRefreshPeriod: 5000
-#        limitForPeriod: 1
+  ratelimiter:
+    instances:
+      test:
+        timeout-duration: 5000
+        limitRefreshPeriod: 5000
+        limitForPeriod: 1
 
