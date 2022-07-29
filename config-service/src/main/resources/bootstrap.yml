@@ -2,8 +2,15 @@ spring:
   application:
     name: config-server
   profiles:
-    active: native
+    active: git
   cloud:
-    server:
-      native:
-        search-locations: classpath:/config
+    config:
+      server:
+        git:
+          uri: https://github.com/Cydeo-JD-A2/ticketing-project-microservice-config.git
+          default-label: master
+          username: CundullahT-CT
+          password: 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
+      fail-fast: true
+
+
